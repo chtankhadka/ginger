@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+
 }
 
 kotlin {
@@ -37,6 +38,11 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.ktor.client.okhttp)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -47,6 +53,30 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(compose.materialIconsExtended)
+
+
+
+            implementation(libs.kotlinx.datetime)
+
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.sqlite.bundled)
+
+            implementation(libs.jetbrains.compose.navigation)
+
+
+            implementation(libs.kotlinx.serialization.json)
+
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            api(libs.koin.core)
+
+            implementation(libs.bundles.ktor)
+            implementation(libs.bundles.coil)
+
+            implementation(libs.compottie)
+            implementation(libs.compottie.resources)
+            implementation(libs.compottie.dot)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -54,6 +84,10 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+
         }
     }
 }
@@ -99,4 +133,8 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+dependencies {
+    implementation(libs.androidx.foundation.layout.android)
+    debugImplementation(compose.uiTooling)
 }
