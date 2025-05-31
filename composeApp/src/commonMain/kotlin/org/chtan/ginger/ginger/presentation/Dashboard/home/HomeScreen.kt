@@ -1,5 +1,6 @@
 package org.chtan.ginger.ginger.presentation.Dashboard.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -62,19 +63,29 @@ fun HomeScreen(nav: NavHostController) {
         columns = GridCells.Adaptive(110.dp), modifier = Modifier,
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        items(listOfRooms.size) {
-            RoomCard(room = listOfRooms[it])
+        items(listOfRooms.size) { it ->
+            RoomCard(
+                room = listOfRooms[it],
+                onClick = { roomNo ->
+                    nav.navigate("room")
+                }
+                )
         }
 
     }
 }
 
 @Composable
-fun RoomCard(room: GingerRooms) {
+fun RoomCard(
+    room: GingerRooms,
+    onClick: (String) -> Unit) {
     Box {
         Box(modifier = Modifier.size(110.dp).align(Alignment.Center)) {
             Card(
-                modifier = Modifier.size(100.dp).padding(10.dp),
+                modifier = Modifier.size(100.dp).padding(10.dp).clickable {
+                    onClick(room.roomNo.toString())
+//                    nav.navigate("room/${room.id}")
+                },
                 elevation = CardDefaults.cardElevation(10.dp),
                 colors = CardDefaults.cardColors(room.roomSituation.color)
             ) {
