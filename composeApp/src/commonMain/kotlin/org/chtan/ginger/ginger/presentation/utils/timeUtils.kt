@@ -22,7 +22,7 @@ fun generateRandomColor(): Color {
 }
 
 fun roundTowDecimalNumber(value: Double): Float {
-    return  (value * 100f).roundToInt() / 100f
+    return (value * 100f).roundToInt() / 100f
 }
 
 
@@ -34,14 +34,12 @@ data class DateTime(
 
 fun convertTimestampToDateTime(timestamp: String): DateTime {
     val instant = Instant.parse(timestamp) // Parse the timestamp into an Instant
-    val localDateTime = instant.toLocalDateTime(TimeZone.UTC) // Convert Instant to LocalDateTime in UTC
+    val localDateTime =
+        instant.toLocalDateTime(TimeZone.UTC) // Convert Instant to LocalDateTime in UTC
     val formattedDate = localDateTime.date.toString() // yyyy-MM-dd
     val formattedTime = localDateTime.time.toString() // HH:mm:ss
     return DateTime(formattedDate, formattedTime)
 }
-
-
-
 
 
 data class MyDateTimeUTC(
@@ -50,6 +48,7 @@ data class MyDateTimeUTC(
     val dateTime: String? = null,
     val day: String? = null
 )
+
 
 fun convertMillisToTime(millis: Long): String {
     // Convert milliseconds to Instant
@@ -64,6 +63,7 @@ fun convertMillisToTime(millis: Long): String {
     // Display the formatted time
     return formattedTime
 }
+
 fun convertMillisToDate(millis: Long): String {
     // Convert milliseconds to Instant
     val instant = Instant.fromEpochMilliseconds(millis)
@@ -77,23 +77,27 @@ fun convertMillisToDate(millis: Long): String {
     return formattedTime
 }
 
+fun currentDate(): String {
 // Get the current instant (now)
-val currentInstant = Clock.System.now()
+    val currentInstant = Clock.System.now()
 
 // Convert to LocalDateTime using the system's default time zone
-val currentDateTime = currentInstant.toLocalDateTime(TimeZone.currentSystemDefault())
-fun getCurrentDateTime(): String {
+    val localDateTime = currentInstant.toLocalDateTime(TimeZone.currentSystemDefault())
 
-    // Format the date and time
-    return "${currentDateTime.year}-${currentDateTime.monthNumber}-${currentDateTime.dayOfMonth} " + "${currentDateTime.hour}:${currentDateTime.minute}:${currentDateTime.second}  ${currentDateTime.dayOfWeek}"
+    // Extract time components (hours, minutes, seconds)
+    val formattedTime = "${localDateTime.date}"
+    // Display the formatted time
+    return formattedTime
 }
 
-fun getCurrentDate() = "${currentDateTime.year}-${currentDateTime.monthNumber}-${currentDateTime.dayOfMonth}"
+
 fun getServerUTCTime(): String {
     val now: Instant = Clock.System.now() // Get the current time as an Instant
-    val utcDateTime = now.toLocalDateTime(TimeZone.UTC) // Convert it to LocalDateTime in UTC timezone
+    val utcDateTime =
+        now.toLocalDateTime(TimeZone.UTC) // Convert it to LocalDateTime in UTC timezone
     return utcDateTime.toString() // Format as ISO 8601 string
 }
+
 fun getUtcId(): String {
     val utcTimeZone = TimeZone.currentSystemDefault().id // Reference the UTC timezone
     return utcTimeZone // Retrieve the ID of the timezone
@@ -116,7 +120,8 @@ fun getOneMonthBeforeUTC(): MyDateTimeUTC {
 fun getLocalTimeInUTC(): MyDateTimeUTC {
     val instant = Clock.System.now() // Get the current time as an Instant
     val localTimeZone = TimeZone.currentSystemDefault() // Get the system's local timezone
-    val localDateTime = instant.toLocalDateTime(localTimeZone) // Convert Instant to LocalDateTime in local timezone
+    val localDateTime =
+        instant.toLocalDateTime(localTimeZone) // Convert Instant to LocalDateTime in local timezone
     return MyDateTimeUTC(
         date = localDateTime.date,
         time = localDateTime.time,
@@ -126,13 +131,12 @@ fun getLocalTimeInUTC(): MyDateTimeUTC {
 }
 
 
-
 fun getUtcToTargetTime(utcTime: String, targetTimeZoneId: String?): MyDateTimeUTC {
     // Parse the input UTC time (ISO 8601 format)
     val instant = Instant.parse(utcTime)
 
     // Get the target timezone using its ID
-    val targetTimeZone = TimeZone.of(targetTimeZoneId?: getUtcId())
+    val targetTimeZone = TimeZone.of(targetTimeZoneId ?: getUtcId())
 
     // Convert the UTC time to the target timezone
     val targetDateTime = instant.toLocalDateTime(targetTimeZone)
